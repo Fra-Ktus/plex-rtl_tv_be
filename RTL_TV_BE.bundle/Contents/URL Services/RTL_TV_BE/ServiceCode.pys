@@ -1,0 +1,53 @@
+import urllib
+import re
+
+RTL_XML_URL = 'http://www.rtl.be/videos/GetFlashParams.aspx?id='
+
+####################################################################################################
+
+#
+# links found on the RTL web sites are like this
+# http://www.rtl.be/videos/video/524422.aspx
+#
+# to get the mp4 url we need to call the web site with an url like this
+# http://www.rtl.be/videos/GetFlashParams.aspx?id=524422
+# this generate a nice XML file with all the needed information
+#
+
+def TranslatelUrl(url):
+	end = url.split('/')[-1]
+	id = end.split('.')[0]
+	xml_url = RTL_XML_URL + id
+	Log ("RTL GetXmlUrl " + url + " xml " + xml_url)
+	return xml_url
+
+def MetadataObjectForURL(url):
+	Log ("RTL MetadataObjectForURL " + url )
+	try:
+		xml = XML.ElementFromURL(TranslatelUrl(url))
+	except:
+		raise Ex.MediaNotAvailable
+	title = xml.xpath('//Title/text()')[0]
+	thumb = xml.xpath('//Thumbnail/text()')[0]
+	summary = xml.xpath('//Description/text()')[0]
+  	return VideoClipObject ( title = title, summary = summary, thumb = thumb )
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+  Log ("RTL MediaObjectsForURL " + url )
+  return [MediaObject(container = Container.MP4, video_codec = VideoCodec.H264, audio_codec = AudioCodec.AAC,video_resolution = "sd",
+      optimized_for_streaming = True,
+      audio_channels = 2,                                                  
+      parts = [PartObject(key=Callback(PlayVideo, url = url))]
+    )
+  ]                                                                      
+
+def PlayVideo(url):
+  Log ("RTL PlayVideo " + url )
+  # Request the URL
+  xml = XML.ElementFromURL(TranslatelUrl(url))
+  video_url = xml.xpath('//URL_HTML5/text()')[0]
+  Log.Exception(video_url)
+  return Redirect(video_url)
+  
