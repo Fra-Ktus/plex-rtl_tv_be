@@ -9,7 +9,6 @@ ART = 'art-default.png'
 def Start():
 
   Plugin.AddPrefixHandler('/video/rtl_tv_be', MainMenu, 'RTL_TV_BE', ICON, ART)
-  Plugin.AddViewGroup('InfoList', viewMode='InfoList', mediaType='items')
   ObjectContainer.title1 = 'RTL_TV_BE'
   ObjectContainer.content = ContainerContent.GenericVideos
   ObjectContainer.art = R(ART)
@@ -55,7 +54,7 @@ def GetItemList(url, title2, page=''):
   Log.Exception('GetItemList')
   cookies = HTTP.CookiesForURL(RTL_URL)
   unsortedVideos = {}
-  oc = ObjectContainer(title2=title2, view_group='InfoList', http_cookies=cookies)
+  oc = ObjectContainer(title2=title2, http_cookies=cookies)
   Log.Exception('videos')
   program_url = RTL_PROGRAM_VIDEO_URL + url
   Log ("RTL url : " + program_url)
