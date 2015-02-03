@@ -1,6 +1,3 @@
-import urllib
-import re
-
 RTL_XML_URL = 'http://www.rtl.be/videos/GetFlashParams.aspx?id='
 
 ####################################################################################################
