@@ -8,7 +8,6 @@ ART = 'art-default.png'
 ####################################################################################################
 def Start():
 
-  Plugin.AddPrefixHandler('/video/rtl_tv_be', MainMenu, 'RTL_TV_BE', ICON, ART)
   ObjectContainer.title1 = 'RTL_TV_BE'
   ObjectContainer.content = ContainerContent.GenericVideos
   ObjectContainer.art = R(ART)
@@ -18,6 +17,7 @@ def Start():
   HTTP.CacheTime = 1800
 
 ####################################################################################################
+@handler('/video/rtl_tv_be', 'RTL_TV_BE', art=ART, thumb=ICON)
 def MainMenu():
 
   oc = ObjectContainer(
