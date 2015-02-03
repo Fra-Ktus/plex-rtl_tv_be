@@ -1,4 +1,3 @@
-import re, string
 RTL_URL	  = 'http://www.rtl.be/'
 RTL_VIDEO_URL	  = 'http://www.rtl.be'
 RTL_PROGRAM_VIDEO_URL = 'http://www.rtl.be/videos/'
