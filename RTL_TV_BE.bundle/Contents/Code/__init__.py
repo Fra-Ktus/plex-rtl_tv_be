@@ -1,4 +1,3 @@
-import re, string
 RTL_URL	  = 'http://www.rtl.be/'
 RTL_VIDEO_URL	  = 'http://www.rtl.be'
 RTL_PROGRAM_VIDEO_URL = 'http://www.rtl.be/videos/'
@@ -9,8 +8,6 @@ ART = 'art-default.png'
 ####################################################################################################
 def Start():
 
-  Plugin.AddPrefixHandler('/video/rtl_tv_be', MainMenu, 'RTL_TV_BE', ICON, ART)
-  Plugin.AddViewGroup('InfoList', viewMode='InfoList', mediaType='items')
   ObjectContainer.title1 = 'RTL_TV_BE'
   ObjectContainer.content = ContainerContent.GenericVideos
   ObjectContainer.art = R(ART)
@@ -20,6 +17,7 @@ def Start():
   HTTP.CacheTime = 1800
 
 ####################################################################################################
+@handler('/video/rtl_tv_be', 'RTL_TV_BE', art=ART, thumb=ICON)
 def MainMenu():
 
   oc = ObjectContainer(
@@ -56,7 +54,7 @@ def GetItemList(url, title2, page=''):
   Log.Exception('GetItemList')
   cookies = HTTP.CookiesForURL(RTL_URL)
   unsortedVideos = {}
-  oc = ObjectContainer(title2=title2, view_group='InfoList', http_cookies=cookies)
+  oc = ObjectContainer(title2=title2, http_cookies=cookies)
   Log.Exception('videos')
   program_url = RTL_PROGRAM_VIDEO_URL + url
   Log ("RTL url : " + program_url)
